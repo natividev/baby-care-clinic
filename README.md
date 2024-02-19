@@ -58,6 +58,91 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+# Proyecto de Gestión Médica
+
+## Problemas a Solucionar:
+
+1. **Crear un sistema de autenticación y autorización más robusto para el personal médico.**
+2. **Desarrollar endpoints para gestionar la historia médica de los pacientes.**
+3. **Implementar un sistema de búsqueda de pacientes y citas.**
+4. **Configurar un servicio de mensajería para notificar a los pacientes sobre cambios en sus citas.**
+5. **Desarrollar un sistema de generación de informes médicos para el personal médico.**
+6. **Configurar un servidor en Docker para el despliegue de la API.**
+
+## Objetivos:
+
+- Desarrollar una API backend sólida utilizando Nest.js y PostgreSQL.
+- Implementar autenticación avanzada utilizando tokens JWT y roles de usuario.
+- Configurar una estructura de base de datos más compleja para pacientes, médicos y citas.
+- Desarrollar endpoints para la gestión de historias médicas y búsqueda de pacientes.
+- Integrar un sistema de mensajería en tiempo real utilizando Socket.IO.
+- Implementar un sistema de generación de informes médicos personalizados.
+- Proporcionar documentación detallada sobre el funcionamiento de la API.
+
+## Requerimientos:
+
+- Utilizar Nest.js y PostgreSQL como base para el desarrollo backend.
+- Implementar autenticación avanzada con roles de usuario utilizando tokens JWT.
+- Desarrollar endpoints para la gestión de historias médicas y búsqueda de pacientes.
+- Configurar Socket.IO para habilitar la mensajería en tiempo real.
+- Integrar Docker para el despliegue de la API en contenedores.
+- Desarrollar endpoints para la generación de informes médicos.
+- Proporcionar documentación detallada sobre los endpoints y el uso de la API.
+
+## Entregables:
+
+- API backend completa con endpoints para gestión de pacientes, citas e historias médicas.
+- Autenticación avanzada implementada con tokens JWT y roles de usuario.
+- Base de datos PostgreSQL con estructura compleja para pacientes, médicos y citas.
+- Sistema de mensajería en tiempo real utilizando Socket.IO.
+- Funcionalidad de generación de informes médicos personalizados.
+- Documentación exhaustiva que explique cada uno de los endpoints y su uso.
+
+## Estructura de la Base de Datos:
+
+### Usuarios:
+- ID (Número único)
+- Nombre
+- Correo electrónico
+- Contraseña (hash)
+
+### Pacientes:
+- ID (Número único)
+- Nombre
+- Edad
+- Correo electrónico
+- Teléfono
+
+### Médicos:
+- ID (Número único)
+- Nombre
+- Especialidad
+- Correo electrónico
+
+### Citas:
+- ID (Número único)
+- Fecha y hora
+- ID del paciente
+- ID del médico
+- Observaciones médicas
+
+## Referencia de proyecto:
+[Proyecto de Gestión Médica](https://iquela.web.app/proyectos/proyecto/L2AWaB7Ibse8Q3KlP9JV)
+
+
+## Endpoints:
+
+- `POST /api/auth/register`: Registro de nuevos usuarios (médicos o pacientes).
+- `POST /api/auth/login`: Inicio de sesión para usuarios con roles de médico o paciente (autenticación JWT).
+- `GET /api/patients`: Consulta de lista de pacientes.
+- `GET /api/patients/:id`: Consulta de detalles de un paciente.
+- `POST /api/appointments`: Creación de nuevas citas.
+- `GET /api/appointments`: Consulta de citas programadas.
+- `GET /api/doctors`: Consulta de lista de médicos.
+- `POST /api/reports/:patientId`: Generación de informes médicos para un paciente específico.
+- `GET /api/messages/:userId`: Consulta de mensajes en tiempo real para un usuario.
+
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
