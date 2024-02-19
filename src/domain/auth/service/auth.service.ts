@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { AuthRepository } from '../repository/auth.repository';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly authRepository: AuthRepository) {}
 
   async getUser() {
-    return await this.prisma.usuarios.findMany();
+    return await this.authRepository.getUser();
   }
 }
