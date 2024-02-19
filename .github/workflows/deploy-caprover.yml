@@ -18,7 +18,7 @@ jobs:
       - uses: chrnorm/deployment-action@v2
         id: deployBabyCareClinic
         with:
-          toke: ${{ secrets.GIT_TOKEN }}
+          token: ${{ secrets.GIT_TOKEN }}
           environment-url: ${{ env.TARGET_URL }}
           environment: ${{ env.TARGET_ENV }}
       - uses: actions/setup-node@v3
