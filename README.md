@@ -60,6 +60,9 @@ $ npm run test:cov
 
 # Proyecto de Gestión Médica
 
+## Descripción:
+Baby Care Clinic es una clínica pediátrica que ofrece servicios de atención médica especializada para niños y bebés de 0 a 12 años. Estamos en proceso de desarrollo de una aplicación backend que complementará nuestra aplicación móvil. Nuestro objetivo es brindar una experiencia eficiente y segura a nuestros usuarios, facilitando la administración de citas médicas, historiales de pacientes y otros aspectos esenciales de nuestra clínica.
+
 ## Problemas a Solucionar:
 
 1. **Crear un sistema de autenticación y autorización más robusto para el personal médico.**
