@@ -22,7 +22,7 @@ model Usuarios {
 model Paciente {
   id                                Int @id @default(autoincrement())
   nombre                            String
-  edad                           String
+  edad                              String
   correo                            String? @unique
   telefono                          String
 
@@ -50,7 +50,7 @@ model Citas {
   idMedico                          Int
   medico Medicos @relation(fields: [idMedico], references: [id])
 
-  observaciones                     String
+  observaciones                 String    @db.Text
 
   @@map("citas")
 }
