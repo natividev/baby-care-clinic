@@ -19,37 +19,41 @@ model Usuarios {
 }
 
 model Paciente {
-  id                                Int @id @default(autoincrement())
-  nombre                            String
-  edad                              String
-  correo                            String? @unique
-  telefono                          String
+  id       Int     @id @default(autoincrement())
+  nombre   String
+  edad     Int
+  correo   String? @unique
+  telefono String
+  estado   Boolean
 
   citas Citas[]
+
   @@map("pacientes")
 }
 
 model Medicos {
-  id                                Int @id @default(autoincrement())
-  nombre                            String
-  especialidad                      String
-  correo                            String? @unique
+  id           Int     @id @default(autoincrement())
+  nombre       String
+  especialidad String
+  correo       String? @unique
+  estado       Boolean
 
   citas Citas[]
+
   @@map("medicos")
 }
 
 model Citas {
-  id                                Int @id @default(autoincrement())
-  fecha_hora                        String
+  id         Int      @id @default(autoincrement())
+  fecha_hora DateTime
 
-  idPaciente                        Int
-  paciente Paciente @relation(fields: [idPaciente], references: [id])
-  
-  idMedico                          Int
-  medico Medicos @relation(fields: [idMedico], references: [id])
+  idPaciente Int
+  paciente   Paciente @relation(fields: [idPaciente], references: [id])
 
-  observaciones                 String    @db.Text
+  idMedico Int
+  medico   Medicos @relation(fields: [idMedico], references: [id])
+
+  observaciones String @db.Text
 
   @@map("citas")
 }
