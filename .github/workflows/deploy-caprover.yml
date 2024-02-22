@@ -1,46 +1,82 @@
+# name: 'Build and Deploy Docker Image to CapRover'
+
+# on:
+#   push:
+#     branches:
+#       - develop
+
+# env:
+#   TARGET_URL : ${{ secrets.CAPROVER_TARGET_URL }}
+#   TARGET_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+
+# jobs:
+#   deploy:
+#     name: Deploy Baby Care Clinic to CapRover
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: chrnorm/deployment-action@v2
+#         id: deployBabyCareClinic
+#         with:
+#           token: ${{ secrets.GIT_TOKEN }}
+#           environment-url: ${{ env.TARGET_URL }}
+#           environment: ${{ env.TARGET_ENV }}
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '18'
+#           cache: 'npm'
+#       - run: npx caprover deploy -h ${{ secrets.CAPROVER_HOST }} -p ${{ secrets.CAPROVER_PASSWORD }} -a ${{ secrets.CAPROVER_APP }} -b ${{ github.ref_name }}
+
+#       - name: Update deployment status (success)
+#         if: success()
+#         uses: chrnorm/deployment-action@v2
+#         with:
+#             token: ${{ secrets.GIT_TOKEN }}
+#             environment-url: ${{ env.TARGET_URL }}
+#             state: 'success'
+#             deployment_id: ${{ steps.deployBabyCareClinic.outputs.deployment_id }}
+
+#       - name: Update deployment status (failure)
+#         uses: chrnorm/deployment-action@v2
+#         if: failure()
+#         with:
+#             token: ${{ secrets.GIT_TOKEN }}
+#             environment-url: ${{ env.TARGET_URL }}
+#             state: 'failure'
+#             deployment_id: ${{ steps.deployBabyCareClinic.outputs.deployment_id }}
+
 name: 'Build and Deploy Docker Image to CapRover'
 
 on:
   push:
     branches:
       - develop
-
-env:
-  TARGET_URL : ${{ secrets.CAPROVER_TARGET_URL }}
-  TARGET_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
-
 jobs:
-  deploy:
-    name: Deploy Baby Care Clinic to CapRover
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: chrnorm/deployment-action@v2
-        id: deployBabyCareClinic
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Deploy on CapRover
+        uses: caprover/deploy-from-github@v1.1.2
         with:
-          token: ${{ secrets.GIT_TOKEN }}
-          environment-url: ${{ env.TARGET_URL }}
-          environment: ${{ env.TARGET_ENV }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-      - run: npx caprover deploy -h ${{ secrets.CAPROVER_HOST }} -p ${{ secrets.CAPROVER_PASSWORD }} -a ${{ secrets.CAPROVER_APP }} -b ${{ github.ref_name }}
-
+          server: https://something.natividaddev.software
+          app: 'Baby Care Clinic'
+          token: '${{ secrets.APP_TOKEN }}'
+          image: 'natividaddev/baby-care-clinic:latest'
       - name: Update deployment status (success)
         if: success()
         uses: chrnorm/deployment-action@v2
         with:
-            token: ${{ secrets.GIT_TOKEN }}
-            environment-url: ${{ env.TARGET_URL }}
-            state: 'success'
-            deployment_id: ${{ steps.deployBabyCareClinic.outputs.deployment_id }}
-
+          token: ${{ secrets.GIT_TOKEN }}
+          environment-url: https://something.natividaddev.software
+          state: 'success'
+          deployment_id: ${{ steps.deploy.outputs.deployment_id }}
       - name: Update deployment status (failure)
-        uses: chrnorm/deployment-action@v2
         if: failure()
+        uses: chrnorm/deployment-action@v2
         with:
-            token: ${{ secrets.GIT_TOKEN }}
-            environment-url: ${{ env.TARGET_URL }}
-            state: 'failure'
-            deployment_id: ${{ steps.deployBabyCareClinic.outputs.deployment_id }}
+          token: ${{ secrets.GIT_TOKEN }}
+          environment-url: https://something.natividaddev.software
+          state: 'failure'
+          deployment_id: ${{ steps.deploy.outputs.deployment_id }}
