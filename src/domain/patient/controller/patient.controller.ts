@@ -66,7 +66,7 @@ export class PatientController {
 
       //Retornar el buffer del PDF para que se renderice en el navegador debo colocar los header de pdf  y el buffer
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=example.pdf');
+      // res.setHeader('Content-Disposition', 'attachment; filename=example.pdf'); // esto para que se descargue auutomaticamente
       res.send(pdfBuffer);
 
 
