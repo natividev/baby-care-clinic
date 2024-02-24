@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './domain/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { PacienteModule } from './domain/paciente/paciente.module';
+import { PatientModule } from './domain/patient/patient.module';
 
 @Module({
   imports: [
@@ -9,7 +9,7 @@ import { PacienteModule } from './domain/paciente/paciente.module';
       isGlobal: true,
     }),
     AuthModule,
-    PacienteModule,
+    PatientModule,
   ],
 })
 export class AppModule {}

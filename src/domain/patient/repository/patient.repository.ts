@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreatePacienteDto } from '../dto/create-paciente.dto';
-import { UpdatePacienteDto } from '../dto/update-paciente.dto';
+import { CreatePatientDto } from '../dto/create-patient.dto';
+import { UpdatePatientDto } from '../dto/update-patient.dto';
 
 @Injectable()
-export class PacienteRepository {
+export class PatientRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async getPacientes() {
@@ -21,7 +21,7 @@ export class PacienteRepository {
     });
   }
 
-  async createPaciente(dto: CreatePacienteDto) {
+  async createPaciente(dto: CreatePatientDto) {
     try {
       return await this.prisma.paciente.create({
         data: { estado: true, ...dto },
@@ -31,7 +31,7 @@ export class PacienteRepository {
     }
   }
 
-  async editPaciente(pacienteId: number, dto: UpdatePacienteDto) {
+  async editPaciente(pacienteId: number, dto: UpdatePatientDto) {
     await this.prisma.paciente.update({
       where: { id: pacienteId },
       data: { ...dto },
