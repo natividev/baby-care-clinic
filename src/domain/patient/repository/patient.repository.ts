@@ -46,14 +46,10 @@ export class PatientRepository {
     const paciente = await this.prisma.paciente.findFirst({
       where: { id: pacienteId, estado: true },
     });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { estado, ...rest } = paciente;
-    // delete paciente?.estado;
-    console.log(estado);
-    if (paciente) {
-      return rest;
-    } else {
-      return { error: `paciente con id: ${pacienteId} no existe` };
-    }
+    if (paciente) return rest;
+    else return { error: `paciente con id: ${pacienteId} no existe` };
   }
 
   async createPaciente(dto: CreatePatientDto) {
