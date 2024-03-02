@@ -1,0 +1,34 @@
+export interface IPaginationOptions {
+  limit?: number;
+  page?: number;
+  where: object;
+  select?: object;
+  orderBy?: object;
+  include?: object;
+  cursor?: object;
+  distinct?: object;
+  having?: object;
+  groupBy?: object;
+  take?: number;
+  skip?: number;
+  count?: object;
+  avg?: object;
+  sum?: object;
+  min?: object;
+  max?: object;
+  _count?: object;
+  _avg?: object;
+  _sum?: object;
+  _min?: object;
+  _max?: object;
+  _distinct?: object;
+  _groupBy?: object;
+  _having?: object;
+  _cursor?: object;
+  _include?: object;
+  _select?: object;
+  _orderBy?: object;
+  _where?: object;
+  _take?: number;
+  _skip?: number;
+}

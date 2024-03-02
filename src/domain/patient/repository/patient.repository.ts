@@ -3,7 +3,8 @@ import { PrismaService } from 'src/prisma.service';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
 import { Estado } from '../../common/enum/Estados';
-
+import { Paciente } from '@db';
+import { pageBuilder } from '@/src/common/pageBuilder';
 @Injectable()
 export class PatientRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -19,8 +20,16 @@ export class PatientRepository {
         telefono: true,
       },
     });
-    if (patients) return patients;
-    else {
+
+    if (patients) {
+      return pageBuilder<Paciente>(this.prisma.paciente, {
+        page: 1,
+        limit: 10,
+        _orderBy: {
+          id: 'desc',
+        },
+      });
+    } else {
       return { error: 'no hay paciente...' };
     }
   }
