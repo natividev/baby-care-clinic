@@ -1,11 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAppointmentDto } from '../dto/create-appointment.dto';
 import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
+import { AppointmentsRepository } from '../repository/appointments.repository';
 
 @Injectable()
 export class AppointmentsService {
-  create(createAppointmentDto: CreateAppointmentDto) {
-    return 'This action adds a new appointment';
+  constructor(
+    private readonly appointmentsRepository: AppointmentsRepository,
+  ) {}
+
+  async create(createAppointmentDto: CreateAppointmentDto) {
+    try {
+      const data =
+        await this.appointmentsRepository.create(createAppointmentDto);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 
   findAll() {
