@@ -20,10 +20,8 @@ export class MedicService {
 
   async findOne(id: number) {
     const medic = await this.medicRepository.getMedicById(id);
-    if (medic != null) {
-      console.log('no hay na');
-      return medic;
-    } else return { error: `medico con id: ${id} no existe` };
+
+    return medic ?? { error: `Médico con ID: ${id} no existe` };
   }
 
   async update(id: number, updateMedicDto: UpdateMedicDto) {

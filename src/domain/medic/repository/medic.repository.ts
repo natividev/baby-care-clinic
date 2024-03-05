@@ -11,12 +11,14 @@ export class MedicRepository {
   async getMedicById(medicId: number) {
     const medic = await this.prisma.medicos.findFirst({
       where: { id: medicId, estado: true },
+      select: {
+        id: true,
+        nombre: true,
+        especialidad: true,
+        correo: true,
+      },
     });
-    if (medic != null) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { estado, ...rest } = medic;
-      return rest;
-    } else return;
+    return medic ?? { error: `el registro con id: ${medicId} no existe` };
   }
 
   async getMedics() {
@@ -29,8 +31,7 @@ export class MedicRepository {
         correo: true,
       },
     });
-    if (medic) return medic;
-    else return { error: 'No hay registros...' };
+    return medic ?? { error: 'No hay registros...' };
   }
 
   async getInactiveMedics() {
@@ -43,8 +44,7 @@ export class MedicRepository {
         correo: true,
       },
     });
-    if (medic) return medic;
-    else return { error: 'No hay registros...' };
+    return medic ?? { error: 'No hay registros...' };
   }
 
   async createMedic(dto: CreateMedicDto) {
@@ -60,14 +60,17 @@ export class MedicRepository {
 
   async editMedic(medicId: number, dto: UpdateMedicDto) {
     try {
-      const exits = this.getMedicById(medicId);
-      if (exits != null) {
-        await this.prisma.medicos.update({
-          where: { id: medicId },
-          data: { ...dto },
-        });
-        return { estado: Estado.Editado };
-      } else return { estado: Estado.Fallindo, error: 'El registro no existe' };
+      const exits = await this.prisma.medicos.findUnique({
+        where: { id: medicId, estado: true },
+      });
+      if (!exits)
+        return { estado: Estado.Fallindo, error: 'El registro no existe' };
+
+      await this.prisma.medicos.update({
+        where: { id: medicId },
+        data: { ...dto },
+      });
+      return { estado: Estado.Editado };
     } catch (error) {
       return { estado: Estado.Fallindo, error: error.meta.cause };
     }
@@ -75,14 +78,17 @@ export class MedicRepository {
 
   async deleteMedic(medicId: number) {
     try {
-      const exits = await this.getMedicById(medicId);
-      if (exits) {
-        await this.prisma.medicos.update({
-          where: { id: medicId },
-          data: { estado: false },
-        });
-        return { estado: Estado.Eliminado };
-      } else return { estado: Estado.Fallindo, error: 'El registro no existe' };
+      const exits = await this.prisma.medicos.findUnique({
+        where: { id: medicId, estado: true },
+      });
+      if (!exits)
+        return { estado: Estado.Fallindo, error: 'El registro no existe' };
+
+      await this.prisma.medicos.update({
+        where: { id: medicId },
+        data: { estado: false },
+      });
+      return { estado: Estado.Eliminado };
     } catch (error) {
       return { estado: Estado.Fallindo, error: error.meta };
     }
