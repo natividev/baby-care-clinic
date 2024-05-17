@@ -23,11 +23,7 @@ export class PatientController {
 
   @Get('/generate')
   async generatePdf(@Res() res: Response) {
-    // const templatePath = 'ruta/al/template.pdf';
-    // const templatePath = '/ruta/completa/a/test.odt';
-    const templatePath =
-      '/home/natividad/Documentos/developer/baby-care-clinic/src/templates/test.odt';
-    console.log('templatePath', templatePath);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const convertTo = 'pdf'; // Puedes cambiarlo si deseas convertir a un formato diferente
     const data = {
       firstname: 'John',
@@ -35,11 +31,7 @@ export class PatientController {
     };
 
     try {
-      const pdfBuffer = await this.pdfService.renderPdf(
-        templatePath,
-        data,
-        convertTo,
-      );
+      const pdfBuffer = await this.pdfService.renderPDF(data, 'test.odt');
 
       //Retornar el buffer del PDF para que se renderice en el navegador debo colocar los header de pdf  y el buffer
       res.setHeader('Content-Type', 'application/pdf');

@@ -1,53 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import * as Carbone from 'carbone';
+import * as carbone from 'carbone';
+import * as util from 'util';
+import { join } from 'path';
 
 @Injectable()
 export class PdfService {
-  async renderPdf<T>(
-    templatePath: string,
-    data: T,
-    convertTo: string = 'pdf',
-  ): Promise<Buffer> {
-    if (!templatePath) {
-      throw new Error('templatePath must be a non-empty string');
-    }
+  async renderPDF<T>(data: T, nameTemplate: string): Promise<Buffer> {
+    const option = {
+      convertTo: 'pdf',
+    };
+    const renderCarbone = util.promisify(carbone.render) as (
+      template: string,
+      data: T,
+      option: object,
+    ) => Promise<Buffer>;
+    const template = `src/templates/${nameTemplate}`;
 
-    if (!data) {
-      throw new Error('data must not be null or undefined');
-    }
+    const result = await renderCarbone(
+      join(process.cwd(), template),
+      data,
+      option,
+    );
 
-    const validFormats = ['pdf', 'otherSupportedFormat']; // replace with actual supported formats
-    if (!validFormats.includes(convertTo)) {
-      throw new Error(`convertTo must be one of ${validFormats.join(', ')}`);
-    }
-
-    return new Promise<Buffer>((resolve, reject) => {
-      const options: Carbone.RenderOptions = {
-        convertTo,
-      };
-
-      Carbone.render(
-        templatePath,
-        data,
-        options,
-        (err: Error | null, result?: Buffer) => {
-          if (err) {
-            reject(
-              new Error(
-                `Error rendering PDF from template ${templatePath}: ${err.message}`,
-              ),
-            );
-          } else if (result) {
-            resolve(result);
-          } else {
-            reject(
-              new Error(
-                `Empty result returned by Carbone when rendering template ${templatePath}`,
-              ),
-            );
-          }
-        },
-      );
-    });
+    return result;
   }
 }
