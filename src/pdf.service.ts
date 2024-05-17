@@ -3,7 +3,11 @@ import * as Carbone from 'carbone';
 
 @Injectable()
 export class PdfService {
-  async renderPdf<T>(templatePath: string, data: T, convertTo: string = 'pdf'): Promise<Buffer> {
+  async renderPdf<T>(
+    templatePath: string,
+    data: T,
+    convertTo: string = 'pdf',
+  ): Promise<Buffer> {
     if (!templatePath) {
       throw new Error('templatePath must be a non-empty string');
     }
@@ -22,15 +26,28 @@ export class PdfService {
         convertTo,
       };
 
-      Carbone.render(templatePath, data, options, (err: Error | null, result?: Buffer) => {
-        if (err) {
-          reject(new Error(`Error rendering PDF from template ${templatePath}: ${err.message}`));
-        } else if (result) {
-          resolve(result);
-        } else {
-          reject(new Error(`Empty result returned by Carbone when rendering template ${templatePath}`));
-        }
-      });
+      Carbone.render(
+        templatePath,
+        data,
+        options,
+        (err: Error | null, result?: Buffer) => {
+          if (err) {
+            reject(
+              new Error(
+                `Error rendering PDF from template ${templatePath}: ${err.message}`,
+              ),
+            );
+          } else if (result) {
+            resolve(result);
+          } else {
+            reject(
+              new Error(
+                `Empty result returned by Carbone when rendering template ${templatePath}`,
+              ),
+            );
+          }
+        },
+      );
     });
   }
 }

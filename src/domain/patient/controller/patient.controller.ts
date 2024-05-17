@@ -21,36 +21,6 @@ export class PatientController {
     private readonly pdfService: PdfService,
   ) {}
 
-  @Post()
-  create(@Body() createPatientDto: CreatePatientDto) {
-    return this.patientService.create(createPatientDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.patientService.findAll();
-  }
-
-  @Get('/inactives')
-  findAllInactive() {
-    return this.patientService.findAllInactive();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.patientService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
-    return this.patientService.update(+id, updatePatientDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.patientService.remove(+id);
-  }
-
   @Get('/generate')
   async generatePdf(@Res() res: Response) {
     // const templatePath = 'ruta/al/template.pdf';
@@ -80,5 +50,35 @@ export class PatientController {
       console.error('Error al generar PDF:', error);
       throw new Error('Error al generar PDF');
     }
+  }
+
+  @Post()
+  create(@Body() createPatientDto: CreatePatientDto) {
+    return this.patientService.create(createPatientDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.patientService.findAll();
+  }
+
+  @Get('/inactives')
+  findAllInactive() {
+    return this.patientService.findAllInactive();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.patientService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
+    return this.patientService.update(+id, updatePatientDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.patientService.remove(+id);
   }
 }
