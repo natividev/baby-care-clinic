@@ -5,11 +5,19 @@ import { UpdatePatientDto } from '../dto/update-patient.dto';
 import { Estado } from '../../common/enum/Estados';
 import { Paciente } from '@db';
 import { pageBuilder } from '@/src/common/pageBuilder';
+import { QueryPacientAllDto } from '../dto';
+import { PaginationQueryDto } from '../../dto/pagination-query.dto';
 @Injectable()
 export class PatientRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getPacientes() {
+  async getPacientes(queryDto: PaginationQueryDto<QueryPacientAllDto>) {
+    const { page, limit, _orderBy, filters } = queryDto;
+    // const { q } = filters;/
+
+    console.log('queryDto', queryDto);
+    console.log('filters', filters);
+
     const patients = await this.prisma.paciente.findMany({
       where: { estado: true },
       select: {
@@ -23,10 +31,10 @@ export class PatientRepository {
 
     if (patients) {
       return pageBuilder<Paciente>(this.prisma.paciente, {
-        page: 1,
-        limit: 10,
+        page,
+        limit,
         _orderBy: {
-          id: 'desc',
+          id: _orderBy,
         },
       });
     } else {

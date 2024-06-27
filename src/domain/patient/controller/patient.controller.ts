@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PatientService } from '../service/patient.service';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
+import { PaginationQueryDto } from '../../dto/pagination-query.dto';
+import { QueryPacientAllDto } from '../dto';
 
 @Controller('patient')
 export class PatientController {
@@ -21,8 +24,8 @@ export class PatientController {
   }
 
   @Get()
-  findAll() {
-    return this.patientService.findAll();
+  findAll(@Query() queryDto: PaginationQueryDto<QueryPacientAllDto>) {
+    return this.patientService.findAll(queryDto);
   }
 
   @Get('/inactives')

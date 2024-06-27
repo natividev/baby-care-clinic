@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
 import { PatientRepository } from '../repository/patient.repository';
+import { PaginationQueryDto } from '../../dto/pagination-query.dto';
+import { QueryPacientAllDto } from '../dto';
 
 @Injectable()
 export class PatientService {
@@ -16,8 +18,8 @@ export class PatientService {
     }
   }
 
-  findAll() {
-    return this.patientRepository.getPacientes();
+  findAll(queryDto: PaginationQueryDto<QueryPacientAllDto>) {
+    return this.patientRepository.getPacientes(queryDto);
   }
 
   findAllInactive() {

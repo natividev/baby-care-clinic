@@ -4,11 +4,14 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   app.useGlobalPipes(
     new ValidationPipe({
+      transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true, // convert query params to number
+      },
     }),
   );
   app.setGlobalPrefix('/api');
