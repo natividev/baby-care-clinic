@@ -13,7 +13,6 @@ export class PatientService {
     try {
       return await this.patientRepository.createPaciente(createPatientDto);
     } catch (error) {
-      console.log();
       throw error;
     }
   }
