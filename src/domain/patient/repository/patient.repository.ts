@@ -71,11 +71,29 @@ export class PatientRepository {
 
   async createPaciente(dto: CreatePatientDto) {
     try {
+      const {
+        nombre,
+        apellido,
+        correo,
+        edad,
+        fechaNacimiento,
+        genero,
+        telefono,
+      } = dto;
       await this.prisma.paciente.create({
-        data: { estado: true, ...dto },
+        data: {
+          nombre,
+          apellidos: apellido,
+          email: correo,
+          edad,
+          fecha_nacimiento: fechaNacimiento,
+          genero,
+          telefono,
+        },
       });
       return { estado: Estado.Creado };
     } catch (error) {
+      console.log('error', error);
       return { estado: Estado.Fallindo, error: error };
     }
   }

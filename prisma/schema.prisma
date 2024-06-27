@@ -18,13 +18,22 @@ model Usuarios {
   password String
 }
 
+enum genero {
+  Masculino
+  Femenino
+}
+
 model Paciente {
-  id       Int     @id @default(autoincrement())
-  nombre   String
-  edad     Int
-  correo   String? @unique
-  telefono String
-  estado   Boolean
+  id               Int      @id @default(autoincrement())
+  nombre           String
+  apellidos        String
+  fecha_nacimiento DateTime @db.Date
+  edad             Int
+  correo           String?  @unique
+  telefono         String
+  email            String   @unique
+  genero           genero
+  estado           Boolean  @default(true)
 
   citas Citas[]
 
