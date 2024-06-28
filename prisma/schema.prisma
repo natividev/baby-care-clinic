@@ -76,3 +76,38 @@ model Specialties {
 
   @@map("specialties")
 }
+
+model pais {
+  codigo             String    @id(map: "pk_sv_cat_020") @db.VarChar(4)
+  nombre             String?   @db.VarChar(100)
+  estado             String    @default("Activo") @db.Char(12)
+  creado_por         String    @db.VarChar(15)
+  fecha_creacion     DateTime  @default(now()) @db.Timestamp(6)
+  modificado_por     String?   @db.VarChar(15)
+  fecha_modificacion DateTime? @db.Timestamp(6)
+}
+
+model departamento {
+  codigo             String      @id(map: "pk_sv_cat_012") @db.VarChar(2)
+  nombre             String?     @db.VarChar(100)
+  estado             String      @default("Activo") @db.Char(12)
+  creado_por         String      @db.VarChar(15)
+  fecha_creacion     DateTime    @default(now()) @db.Timestamp(6)
+  modificado_por     String?     @db.VarChar(15)
+  fecha_modificacion DateTime?   @db.Timestamp(6)
+  municipio          municipio[]
+}
+
+model municipio {
+  codigo              String       @db.VarChar(2)
+  nombre              String?      @db.VarChar(100)
+  codigo_departamento String       @db.VarChar(2)
+  estado              String       @default("Activo") @db.Char(12)
+  creado_por          String       @db.VarChar(15)
+  fecha_creacion      DateTime     @default(now()) @db.Timestamp(6)
+  modificado_por      String?      @db.VarChar(15)
+  fecha_modificacion  DateTime?    @db.Timestamp(6)
+  departamento        departamento @relation(fields: [codigo_departamento], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "municipio")
+
+  @@id([codigo, codigo_departamento], map: "pk_sv_cat_013")
+}
