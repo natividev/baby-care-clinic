@@ -30,6 +30,11 @@ export class MedicController {
     return this.medicService.findAllInactives();
   }
 
+  @Get('/specialty')
+  getSpecialty() {
+    return this.medicService.getSpecialty();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.medicService.findOne(+id);

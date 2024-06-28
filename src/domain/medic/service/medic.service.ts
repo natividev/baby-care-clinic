@@ -31,4 +31,8 @@ export class MedicService {
   async remove(id: number) {
     return await this.medicRepository.deleteMedic(id);
   }
+
+  async getSpecialty() {
+    return await this.medicRepository.getSpecialty();
+  }
 }

@@ -93,4 +93,8 @@ export class MedicRepository {
       return { estado: Estado.Fallindo, error: error.meta };
     }
   }
+
+  async getSpecialty() {
+    return await this.prisma.specialties.findMany();
+  }
 }
