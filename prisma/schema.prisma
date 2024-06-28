@@ -41,22 +41,37 @@ model Paciente {
 }
 
 model Medicos {
-  id                   Int     @id @default(autoincrement())
-  nombre               String
-  apellidos            String
-  telefono             String
-  jvpm                 String  @unique
-  documentoDeIdentidad String  @unique
-  nrc                  String  @unique
-  actividadEconomica   String //todo falta
-  especialidad         Int     @unique
-  correo               String? @unique
-  estado               Boolean @default(true)
-  citas                Citas[]
+  id                       Int                @id @default(autoincrement())
+  nombre                   String
+  apellidos                String
+  telefono                 String
+  jvpm                     String             @unique
+  documentoDeIdentidad     String             @unique
+  nrc                      String             @unique
+  especialidad             Int                @unique
+  correo                   String?            @unique
+  estado                   Boolean            @default(true)
+  actividadEconomicaCodigo String             @db.VarChar(5)
+  actividadEconomica       actividadEconomica @relation(fields: [actividadEconomicaCodigo], references: [codigo])
+  citas                    Citas[]
 
   specialty Specialties @relation(fields: [especialidad], references: [id])
 
   @@map("medicos")
+}
+
+model actividadEconomica {
+  codigo             String    @id(map: "pk_sv_cat_019") @db.VarChar(5)
+  nombre             String?   @db.VarChar(200)
+  pais               String    @default("SV") @db.Char(2)
+  estado             String    @default("Activo") @db.Char(12)
+  creado_por         String    @db.VarChar(15)
+  fecha_creacion     DateTime  @default(now()) @db.Timestamp(6)
+  modificado_por     String?   @db.VarChar(15)
+  fecha_modificacion DateTime? @db.Timestamp(6)
+  medicos            Medicos[]
+
+  @@map("actividad_economica")
 }
 
 model Citas {
