@@ -31,8 +31,8 @@ export class CreateMedicDto {
   @IsOptional()
   nrc: string;
 
-  @IsString()
-  actividadEconomica: string;
+  @IsNumber()
+  actividadEconomica: number;
 
   @IsNumber()
   @IsNotEmpty()

@@ -63,7 +63,15 @@ export class MedicRepository {
 
       await this.prisma.medicos.create({
         data: {
-          
+          nombre,
+          apellidos,
+          telefono,
+          jvpm,
+          documento_de_identidad: documentoDeIdentidad,
+          nrc,
+          especialidad,
+          correo,
+          actividadEconomica,
         },
       });
       return { estado: Estado.Creado };
