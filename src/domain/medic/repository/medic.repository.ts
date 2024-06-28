@@ -49,8 +49,22 @@ export class MedicRepository {
 
   async createMedic(dto: CreateMedicDto) {
     try {
+      const {
+        actividadEconomica,
+        apellidos,
+        correo,
+        documentoDeIdentidad,
+        especialidad,
+        jvpm,
+        nombre,
+        nrc,
+        telefono,
+      } = dto;
+
       await this.prisma.medicos.create({
-        data: { estado: true, ...dto },
+        data: {
+          
+        },
       });
       return { estado: Estado.Creado };
     } catch (error) {
