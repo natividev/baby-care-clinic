@@ -43,11 +43,13 @@ model Paciente {
 model Medicos {
   id           Int     @id @default(autoincrement())
   nombre       String
-  especialidad String
+  especialidad Int     @unique
   correo       String? @unique
   estado       Boolean
 
   citas Citas[]
+
+  specialty Specialties @relation(fields: [especialidad], references: [id])
 
   @@map("medicos")
 }
@@ -68,8 +70,9 @@ model Citas {
 }
 
 model Specialties {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id     Int      @id @default(autoincrement())
+  name   String   @unique
+  medico Medicos?
 
   @@map("specialties")
 }
