@@ -6,7 +6,7 @@ export class CreateMedicDto {
   nombre: string;
 
   @IsNotEmpty()
-  especialidad: string;
+  especialidad: number;
 
   @IsEmail()
   @IsNotEmpty()
