@@ -47,7 +47,7 @@ model Medicos {
   telefono                 String
   jvpm                     String             @unique
   documentoDeIdentidad     String             @unique
-  nrc                      String             @unique
+  nrc                      String?            @unique
   especialidad             Int                @unique
   correo                   String?            @unique
   estado                   Boolean            @default(true)
