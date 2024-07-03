@@ -47,7 +47,7 @@ model Medicos {
   jvpm                       String             @unique @db.VarChar(10)
   documento_de_identidad     String             @unique @db.VarChar(14)
   nrc                        String?            @unique @db.VarChar(10)
-  especialidad               Int                @unique
+  especialidad               Int
   correo                     String?            @unique @db.VarChar(100)
   estado                     Boolean            @default(true)
   actividad_economica_codigo String             @db.VarChar(5)
@@ -89,9 +89,9 @@ model Citas {
 }
 
 model Specialties {
-  id     Int      @id @default(autoincrement())
-  name   String   @unique
-  medico Medicos?
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  medicos Medicos[]
 
   @@map("specialties")
 }
