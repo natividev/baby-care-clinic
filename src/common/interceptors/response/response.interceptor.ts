@@ -27,11 +27,11 @@ export class ResponseInterceptor implements NestInterceptor {
         }
       }),
       catchError((error) => {
-        return throwError({
+        return throwError(() => ({
           status: 'error',
           message: 'Error en la solicitud',
           data: error.message,
-        });
+        }));
       }),
     );
   }
