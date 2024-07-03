@@ -31,7 +31,8 @@ export class MedicRepository {
         correo: true,
       },
     });
-    return medic ?? { error: 'No hay registros...' };
+    console.log('medic', medic);
+    return { data: medic } ?? { error: 'No hay registros...' };
   }
 
   async getInactiveMedics() {
