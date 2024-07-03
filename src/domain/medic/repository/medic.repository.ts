@@ -48,6 +48,7 @@ export class MedicRepository {
   }
 
   async createMedic(dto: CreateMedicDto) {
+    console.log('awwwwww', dto);
     try {
       const {
         actividadEconomica: actividadEconomica,
@@ -76,6 +77,7 @@ export class MedicRepository {
       });
       return { estado: Estado.Creado };
     } catch (error) {
+      console.log(error);
       return { estado: Estado.Fallindo, error: error.meta.cause };
     }
   }
