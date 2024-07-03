@@ -24,7 +24,7 @@ export class PatientRepository {
         id: true,
         nombre: true,
         edad: true,
-        correo: true,
+        email: true,
         telefono: true,
       },
     });
@@ -49,7 +49,7 @@ export class PatientRepository {
         id: true,
         nombre: true,
         edad: true,
-        correo: true,
+        email: true,
         telefono: true,
       },
     });

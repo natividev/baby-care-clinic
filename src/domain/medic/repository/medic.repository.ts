@@ -50,7 +50,7 @@ export class MedicRepository {
   async createMedic(dto: CreateMedicDto) {
     try {
       const {
-        actividadEconomica,
+        actividadEconomica: actividadEconomica,
         apellidos,
         correo,
         documentoDeIdentidad,
@@ -71,7 +71,7 @@ export class MedicRepository {
           nrc,
           especialidad,
           correo,
-          actividadEconomica,
+          actividad_economica_codigo: actividadEconomica,
         },
       });
       return { estado: Estado.Creado };
@@ -81,6 +81,17 @@ export class MedicRepository {
   }
 
   async editMedic(medicId: number, dto: UpdateMedicDto) {
+    const {
+      actividadEconomica,
+      apellidos,
+      correo,
+      documentoDeIdentidad,
+      especialidad,
+      jvpm,
+      nombre,
+      nrc,
+      telefono,
+    } = dto;
     try {
       const exits = await this.prisma.medicos.findUnique({
         where: { id: medicId, estado: true },
@@ -90,7 +101,17 @@ export class MedicRepository {
 
       await this.prisma.medicos.update({
         where: { id: medicId },
-        data: { ...dto },
+        data: {
+          actividad_economica_codigo: actividadEconomica,
+          apellidos,
+          correo,
+          documento_de_identidad: documentoDeIdentidad,
+          especialidad,
+          jvpm,
+          nombre,
+          nrc,
+          telefono,
+        },
       });
       return { estado: Estado.Editado };
     } catch (error) {
