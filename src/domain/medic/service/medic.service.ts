@@ -7,7 +7,12 @@ import { MedicRepository } from '../repository/medic.repository';
 export class MedicService {
   constructor(private readonly medicRepository: MedicRepository) {}
   async create(createMedicDto: CreateMedicDto) {
-    return await this.medicRepository.createMedic(createMedicDto);
+    try {
+      return await this.medicRepository.createMedic(createMedicDto);
+    } catch (error) {
+      console.log(error);
+      return { error: error.message };
+    }
   }
 
   async findAll() {

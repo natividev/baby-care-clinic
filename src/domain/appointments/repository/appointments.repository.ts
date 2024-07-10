@@ -12,7 +12,7 @@ export class AppointmentsRepository {
 
     const isDisponible = await this.prisma.citas.findFirst({
       where: {
-        idMedico,
+        id_medico: idMedico,
         fecha_hora: new Date(fechaCita),
       },
     });
@@ -26,8 +26,8 @@ export class AppointmentsRepository {
       data: {
         fecha_hora: new Date(fechaCita),
         observaciones,
-        idPaciente,
-        idMedico,
+        id_paciente: idPaciente,
+        id_medico: idMedico,
       },
     });
 
