@@ -152,6 +152,9 @@ export class MedicRepository {
   }
 
   async getSpecialty() {
-    return await this.prisma.specialties.findMany();
+    const data = await this.prisma.specialties.findMany();
+    return {
+      data,
+    };
   }
 }

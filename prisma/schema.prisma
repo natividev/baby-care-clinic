@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Usuarios {
-  id       Int     @id @default(autoincrement())
-  nombre   String
-  usuario  String  @unique
-  correo   String? @unique
-  password String
+  id         Int          @id @default(autoincrement())
+  nombre     String
+  usuario    String       @unique
+  correo     String?      @unique
+  password   String
+  atenciones atenciones[]
 }
 
 enum genero {
@@ -34,9 +35,77 @@ model Paciente {
   genero           genero
   estado           Boolean  @default(true)
 
-  citas Citas[]
+  citas      Citas[]
+  Consultas  Consultas[]
+  atenciones atenciones[]
 
   @@map("pacientes")
+}
+
+model aseguradoras {
+  id         Int          @id @default(autoincrement())
+  nombre     String       @db.VarChar(100)
+  created_At DateTime     @default(now())
+  updated_At DateTime     @updatedAt
+  atenciones atenciones[]
+}
+
+enum tipo_ingreso {
+  INGRESO_NORMAL
+  AMBULATORIO
+  URGENCIA
+  PRE_OPERATORIO
+  MATERNIDAD
+  POST_OPERATORIO
+}
+
+enum tipo_pago {
+  EFECTIVO
+  TARJETA
+  TRANSFERENCIA
+  CHEQUE
+  MEDICO_ES_RESPONSABLE_DE_LA_CUENTA
+  SEGURO_MEDICO
+  TRATO_CERRADO
+}
+
+model atenciones {
+  id             Int          @id @default(autoincrement())
+  tipo_ingreso   tipo_ingreso
+  aseguradora_id Int?
+  medico_id      Int?
+  alta           Boolean      @default(false)
+  username       Int?
+  fecha_alta     DateTime?
+  usuario_alta   Int?
+  paciente_id    Int
+  usuario_id     Int
+
+  aseguradora aseguradoras? @relation(fields: [aseguradora_id], references: [id])
+  medico      Medicos?      @relation(fields: [medico_id], references: [id])
+  paciente    Paciente      @relation(fields: [paciente_id], references: [id])
+  usuario     Usuarios?     @relation(fields: [usuario_id], references: [id])
+  Consultas   Consultas[]
+}
+
+model Consultas {
+  id                 Int        @id @default(autoincrement())
+  fecha              DateTime
+  motivo             String     @db.Text
+  sintomas           String     @db.Text
+  diagnostico        String     @db.Text
+  peso               Float
+  talla              Float
+  pulso              Int
+  temperatura        Float
+  presion_arterial   String     @db.VarChar(10)
+  inspeccion_general String     @db.Text
+  id_medico          Int
+  id_paciente        Int
+  id_atencion        Int
+  paciente           Paciente   @relation(fields: [id_paciente], references: [id])
+  medico             Medicos    @relation(fields: [id_medico], references: [id])
+  atencion           atenciones @relation(fields: [id_atencion], references: [id])
 }
 
 model Medicos {
@@ -54,7 +123,9 @@ model Medicos {
   actividadEconomica         actividadEconomica @relation(fields: [actividad_economica_codigo], references: [codigo])
   citas                      Citas[]
 
-  specialty Specialties @relation(fields: [especialidad], references: [id])
+  specialty  Specialties  @relation(fields: [especialidad], references: [id])
+  Consultas  Consultas[]
+  atenciones atenciones[]
 
   @@map("medicos")
 }
@@ -75,14 +146,11 @@ model actividadEconomica {
 
 model Citas {
   id         Int      @id @default(autoincrement())
-  fecha_hora DateTime
-
+  fecha_hora DateTime @db.Timestamp(6)
   id_paciente Int
   paciente    Paciente @relation(fields: [id_paciente], references: [id])
-
   id_medico Int
   medico    Medicos @relation(fields: [id_medico], references: [id])
-
   observaciones String @db.Text
 
   @@map("citas")
